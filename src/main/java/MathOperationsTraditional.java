@@ -2,7 +2,6 @@
 import javax.naming.Context;
 import javax.naming.InitialContext;
 import javax.naming.NamingException;
-import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
@@ -19,13 +18,13 @@ public class MathOperationsTraditional extends HttpServlet {
     @Override
     protected void service(HttpServletRequest req, HttpServletResponse resp) {
 
-        try {
-            Context env = (Context) new InitialContext().lookup("java:comp/env");
-            String docPath = (String) env.lookup("docPath");
-            System.out.println(docPath);
-        } catch (NamingException e) {
-            e.printStackTrace();
-        }
+//        try {
+//            Context env = (Context) new InitialContext().lookup("java:comp/env");
+//            String docPath = (String) env.lookup("docPath");
+//            System.out.println(docPath);
+//        } catch (NamingException e) {
+//            e.printStackTrace();
+//        }
 
         try {
             System.out.println(" enter in servlet traditional");
