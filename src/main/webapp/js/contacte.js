@@ -12,7 +12,7 @@ var tbody = table.getElementsByTagName('tbody')[0];
 
 console.info("1) before load contacts");
 
-$.ajax('servlet/contacte-list.json').done(function(contacts){
+$.ajax('get-contacts', {dataType: 'json'}).done(function(contacts){
     console.info('3) contacts loaded', contacts);
 
     contacts.forEach(function(contact) {

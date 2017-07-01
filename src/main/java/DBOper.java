@@ -5,9 +5,9 @@ import java.util.List;
 public class DBOper {
 
     // 2. define connection params to db
-    private static final String URL = "jdbc:postgresql://TODOIP:5432/db";
-    private static final String USERNAME = "user";
-    private static final String PASSWORD = "pass";
+    private static final String URL = "jdbc:postgresql://54.93.65.5:5432/6IulianaUser23";
+    private static final String USERNAME = "fasttrackit_dev";
+    private static final String PASSWORD = "fasttrackit_dev";
 
     public static void insert(String a, String b) {
         try {
@@ -79,8 +79,8 @@ public class DBOper {
         }
     }
 
-    public static List<String> getContacts() {
-        List<String> contacts = new ArrayList<>();
+    public static List<Conctact> getContacts() {
+        List<Conctact> contacts = new ArrayList<>();
         try {
             Class.forName("org.postgresql.Driver");
             Connection conn = DriverManager.getConnection(URL, USERNAME, PASSWORD);
@@ -90,15 +90,12 @@ public class DBOper {
 
             // 6. iterate the result set and print the values
             while (rs.next()) {
-                contacts.add(rs.getString("name").trim());
-
-                System.out.print(rs.getString("id").trim());
-                System.out.print("---");
-                System.out.print(rs.getString("name").trim());
-                //System.out.print("---");
-                //System.out.print(rs.getString("prenume").trim());
-                System.out.print("---");
-                System.out.println(rs.getString("phone").trim());
+                int id = rs.getInt("id");
+                String lastName = rs.getString("name").trim();
+                String firstName = rs.getString("prenume").trim();
+                String phone = rs.getString("phone").trim();
+                Conctact conctact = new Conctact(id, firstName, lastName, phone);
+                contacts.add(conctact);
             }
 
             rs.close();
@@ -115,7 +112,7 @@ public class DBOper {
     public static void main(String[] args) {
         //removeContact(3);
         //insertContact("Matei", "Nicolae", "02222232");
-//        List<String> contacts = getContacts();
-//        System.out.println(contacts);
+        List<Conctact> contacts = getContacts();
+        System.out.println(contacts);
     }
 }
