@@ -1,7 +1,3 @@
-
-import javax.naming.Context;
-import javax.naming.InitialContext;
-import javax.naming.NamingException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
@@ -51,7 +47,7 @@ public class MathOperationsTraditional extends HttpServlet {
             out.println("<body>");
 
 
-            out.println("Result is: <b>"+resultValue+"</b>");
+            out.println("Result is: <b>"+resultValue+"</b> <br><a href='index_traditional.html'>Back</a>");
 
             out.close();
 

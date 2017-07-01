@@ -4,29 +4,35 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.util.List;
 
-@WebServlet("/mathOperationsAjax")
-public class MathOperationsAjax extends HttpServlet {
+@WebServlet("/get-contacts")
+public class ListContactsServlet extends HttpServlet {
+
     @Override
     protected void service(HttpServletRequest req, HttpServletResponse resp)  {
-
-
+        System.out.println("enter in servlet remove contact");
         try {
-            System.out.println(" enter in servlet ajax");
             PrintWriter out =resp.getWriter();
 
-            String sNr1=req.getParameter("nr1");
-            String sNr2=req.getParameter("nr2");
-            String sOp=req.getParameter("op");
+            List<Conctact> contacts = DBOper.getContacts();
+            System.out.println(contacts);
 
-            int nr1=Integer.parseInt(sNr1);
-            int nr2=Integer.parseInt(sNr2);
+            String json = "[";
 
-            double resultValue;
-            resultValue = MathOperationsBusinessLogic.getResultValue(sOp, nr1, nr2);
+            // iter
+            for (Conctact contact : contacts) {
+                json += "{\"id\": "+ contact.getId() +
+                        ", \"phone\": \""+contact.getPhone() +
+                        "\", \"nume\": \"" + contact.getLastName() +
+                        "\", \"prenume\": \"" + contact.getFirstName() +
+                        "\"},";
+            }
+            json = json.substring(0, json.length() - 1);
 
-            System.out.println("result in servlet ajax is:"+resultValue);
-            out.println("Result is: <b>"+resultValue+"</b>");
+            json += "]";
+
+            out.println(json);
 
             out.close();
         } catch (Exception e) {

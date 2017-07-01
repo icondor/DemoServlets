@@ -5,28 +5,22 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.io.PrintWriter;
 
-@WebServlet("/mathOperationsAjax")
-public class MathOperationsAjax extends HttpServlet {
+@WebServlet("/remove-contact")
+public class RemoveContactServlet extends HttpServlet {
+
     @Override
     protected void service(HttpServletRequest req, HttpServletResponse resp)  {
-
-
+        System.out.println("enter in servlet remove contact");
         try {
-            System.out.println(" enter in servlet ajax");
             PrintWriter out =resp.getWriter();
 
-            String sNr1=req.getParameter("nr1");
-            String sNr2=req.getParameter("nr2");
-            String sOp=req.getParameter("op");
+            String sID = req.getParameter("id");
 
-            int nr1=Integer.parseInt(sNr1);
-            int nr2=Integer.parseInt(sNr2);
+            int id = Integer.parseInt(sID);
 
-            double resultValue;
-            resultValue = MathOperationsBusinessLogic.getResultValue(sOp, nr1, nr2);
+            DBOper.removeContact(id);
 
-            System.out.println("result in servlet ajax is:"+resultValue);
-            out.println("Result is: <b>"+resultValue+"</b>");
+            out.println("{\"success\": " + id + "}");
 
             out.close();
         } catch (Exception e) {
