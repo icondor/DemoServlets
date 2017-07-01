@@ -1,20 +1,18 @@
-import java.sql.Connection;
-import java.sql.DriverManager;
-import java.sql.PreparedStatement;
-import java.sql.SQLException;
+import java.sql.*;
+import java.util.ArrayList;
+import java.util.List;
 
 public class DBOper {
 
-    public static void insert(String a, String b) {
+    // 2. define connection params to db
+    private static final String URL = "jdbc:postgresql://TODOIP:5432/db";
+    private static final String USERNAME = "user";
+    private static final String PASSWORD = "pass";
 
+    public static void insert(String a, String b) {
         try {
             // 1. load driver, no longer needed in new versions of JDBC
             Class.forName("org.postgresql.Driver");
-
-            // 2. define connection params to db
-            final String URL = "jdbc:postgresql://TODOIP:5432/db";
-            final String USERNAME = "user";
-            final String PASSWORD = "pass";
 
             // 3. obtain a connection
             Connection conn = DriverManager.getConnection(URL, USERNAME, PASSWORD);
@@ -35,5 +33,89 @@ public class DBOper {
         } catch (SQLException e) {
             e.printStackTrace();
         }
+    }
+
+    public static void removeContact(int id) {
+        try {
+            Class.forName("org.postgresql.Driver");
+            Connection conn = DriverManager.getConnection(URL, USERNAME, PASSWORD);
+
+            PreparedStatement pSt = conn.prepareStatement("DELETE FROM agenda WHERE id = ?");
+            pSt.setInt(1, id);
+
+            // 5. execute a prepared statement
+            int rowsInserted = pSt.executeUpdate();
+
+            System.out.println("contact removed. ID = " + id);
+            // 6. close the objects
+            pSt.close();
+            conn.close();
+        } catch (ClassNotFoundException e) {
+            e.printStackTrace();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public static void insertContact(String firstName, String lastName, String phone) {
+        try {
+            Class.forName("org.postgresql.Driver");
+            Connection conn = DriverManager.getConnection(URL, USERNAME, PASSWORD);
+
+            PreparedStatement pSt = conn.prepareStatement("INSERT INTO agenda (name, prenume, phone) VALUES (?,?,?)");
+            pSt.setString(1, lastName);
+            pSt.setString(2, firstName);
+            pSt.setString(3, phone);
+
+            int rowsInserted = pSt.executeUpdate();
+
+            System.out.println("am inserat " + rowsInserted + " randuri.");
+            pSt.close();
+            conn.close();
+        } catch (ClassNotFoundException e) {
+            e.printStackTrace();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public static List<String> getContacts() {
+        List<String> contacts = new ArrayList<>();
+        try {
+            Class.forName("org.postgresql.Driver");
+            Connection conn = DriverManager.getConnection(URL, USERNAME, PASSWORD);
+
+            Statement st = conn.createStatement();
+            ResultSet rs = st.executeQuery("SELECT * FROM agenda");
+
+            // 6. iterate the result set and print the values
+            while (rs.next()) {
+                contacts.add(rs.getString("name").trim());
+
+                System.out.print(rs.getString("id").trim());
+                System.out.print("---");
+                System.out.print(rs.getString("name").trim());
+                //System.out.print("---");
+                //System.out.print(rs.getString("prenume").trim());
+                System.out.print("---");
+                System.out.println(rs.getString("phone").trim());
+            }
+
+            rs.close();
+            st.close();
+            conn.close();
+        } catch (ClassNotFoundException e) {
+            e.printStackTrace();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return contacts;
+    }
+
+    public static void main(String[] args) {
+        //removeContact(3);
+        //insertContact("Matei", "Nicolae", "02222232");
+//        List<String> contacts = getContacts();
+//        System.out.println(contacts);
     }
 }

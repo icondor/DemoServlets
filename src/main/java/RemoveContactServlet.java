@@ -18,7 +18,7 @@ public class RemoveContactServlet extends HttpServlet {
 
             int id = Integer.parseInt(sID);
 
-            // TODO remove the ID from DB
+            DBOper.removeContact(id);
 
             out.println("{\"success\": " + id + "}");
 
