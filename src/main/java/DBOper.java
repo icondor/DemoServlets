@@ -5,9 +5,9 @@ import java.util.List;
 public class DBOper {
 
     // 2. define connection params to db
-    private static final String URL = "jdbc:postgresql://54.93.65.5:5432/6IulianaUser23";
-    private static final String USERNAME = "fasttrackit_dev";
-    private static final String PASSWORD = "fasttrackit_dev";
+    private static final String URL = "jdbc:postgresql://TODOIP:5432/db";
+    private static final String USERNAME = "user";
+    private static final String PASSWORD = "pass";
 
     public static void insert(String a, String b) {
         try {
